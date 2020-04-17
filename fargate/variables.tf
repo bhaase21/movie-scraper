@@ -3,6 +3,10 @@
  * Common variables to use in various Terraform files (*.tf)
  */
 
+variable "region" {
+  default = "us-east-1"
+}
+
 # Tags for the infrastructure
 variable "tags" {
   type = map(string)

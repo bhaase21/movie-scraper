@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "getTrending" {
-  family                   = "cinesnack"
+  family                   = "cinesnack-trending"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "256"
@@ -35,7 +35,7 @@ tags = var.tags
 }
 
 resource "aws_ecs_task_definition" "getTv" {
-  family                   = "cinesnack"
+  family                   = "cinesnack-tv"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "256"
@@ -71,7 +71,7 @@ DEFINITION
 }
 
 resource "aws_ecs_task_definition" "getFuture" {
-  family                   = "cinesnack"
+  family                   = "cinesnack-future"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "256"
@@ -107,7 +107,7 @@ DEFINITION
 }
 
 resource "aws_ecs_task_definition" "getRecent" {
-  family                   = "cinesnack"
+  family                   = "cinesnack-recent"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "256"
