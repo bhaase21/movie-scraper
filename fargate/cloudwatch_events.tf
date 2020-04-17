@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_rule" "trending_task" {
   name = "cinesnack-trending-task"
   description = "Runs fargate task cinesnack: trending_task"
-  schedule_expression = "cron(0 * * * ? *)"
+  schedule_expression = "cron(0 0 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "trending_task" {
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_event_target" "recent_task" {
 resource "aws_cloudwatch_event_rule" "future_task" {
   name = "cinesnack-future-task"
   description = "Runs fargate task cinesnack: future_task"
-  schedule_expression = "cron(0 * * * ? *)"
+  schedule_expression = "cron(0 0 * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "future_task" {
