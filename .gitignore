@@ -1,0 +1,3 @@
+cron*.txt
+fargate/.terraform*
+__pycache__
