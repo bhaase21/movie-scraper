@@ -67,14 +67,14 @@ resource "aws_cloudwatch_event_target" "recent_task" {
 }
 
 resource "aws_cloudwatch_event_rule" "future_task" {
-  name = "cinesnack"
+  name = "cinesnack-future-task"
   description = "Runs fargate task cinesnack: future_task"
   schedule_expression = "cron(0 * * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "future_task" {
   rule = aws_cloudwatch_event_rule.future_task.name
-  target_id = "cinesnack"
+  target_id = "cinesnack-future-task"
   arn = aws_ecs_cluster.app.arn
   role_arn = aws_iam_role.cloudwatch_events_role.arn
   input = "{}"
