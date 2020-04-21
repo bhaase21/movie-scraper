@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "events_ecs" {
   statement {
     effect = "Allow"
     actions = ["ecs:RunTask"]
-    resources = ["arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task-definition/${aws_ecs_task_definition.getTrending.family}:*"]
+    resources = ["arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task-definition/cinesnack-*"]
 
     condition {
       test = "StringLike"

@@ -1,4 +1,4 @@
-FROM python:3
+FROM frolvlad/alpine-python3
 
 COPY ./requirements.txt /app/requirements.txt
 

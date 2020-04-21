@@ -37,12 +37,13 @@ reddit = praw.Reddit(client_id=REDDIT_KEY, \
 now = int(time.time()) 
 
 def update_trending(record):
-    print(record)
-    try:
-        db['trending'].insert_one(record)
-    except:
-        print("Error inserting into trending")
-        print(record)
+    #try:
+
+    db['trending'].update_one({'id': record["id"]}, {"$set": record}, upsert=True).upserted_id
+    #db['trending'].insert_one(record)
+    #except:
+    #    print("Error inserting into trending")
+    #    print(record)
 
 def clear_trending_collection():
     print("Clearing trending collection")
@@ -94,7 +95,6 @@ def save(movies):
         movie_id = db['movies'].update_one({'id': m["id"]}, {"$set": m}, upsert=True).upserted_id
         if movie_id != None:
             print("New Movie Added: {}".format(m["title"]))   
-
     return
 
 def save_tv(series):
@@ -102,7 +102,6 @@ def save_tv(series):
     tv_id = db['tv'].update_one({'id': series["id"]}, {"$set": series}, upsert=True).upserted_id
     if tv_id != None:
         print("New Series Added: {}".format(tv_id))
-
     return
 
 def get_release_data(id):
@@ -200,7 +199,6 @@ def get_movie_by_id(id, nosave = False):
 
   existing = db['movies'].find_one({"id": m.get("id")})
 
-  print("getting deets for {}".format(m['title'].encode('utf8')))
   trailers = []
   trailer_count = 0
   latest_trailer = 0
@@ -240,10 +238,10 @@ def get_movie_by_id(id, nosave = False):
   imdb_rating = 0
 #  if release_date:
 #    release_date_epoch = get_epoch_release(release_date)
-  try:
-      rt_rating, rt_count, rt_aud_rating, rt_aud_count = get_rt_rating(m['title'], release_date.split('-')[0])
-  except:
-      print("Error getting ratings\n")
+  #try:
+  #    rt_rating, rt_count, rt_aud_rating, rt_aud_count = get_rt_rating(m['title'], release_date.split('-')[0])
+  #except:
+  #    print("Error getting ratings\n")
 
   if m['imdb_id'] != 0:
       imdb_rating = get_imdb_rating(m['imdb_id'])
@@ -321,7 +319,10 @@ def get_trending():
         results = make_request(url + "&page=" + str(x))
         for m in results['results']:
             result = get_movie_by_id(m['id'], True)
-            update_trending(result)
+            if result:
+                update_trending(result)
+            else:
+                print("Error with {}".format(result))
     
 def get_recent(days_back, days_forward):
     start, end = get_start_end(days_back, days_forward)
@@ -476,7 +477,6 @@ def get_tv_popular():
         popular = make_request('/3/tv/popular?sort_by=popularity.desc&api_key=c4b64aac5d73d9ac3a465fead55b0b72' + "&page=" + str(x))
 
         for p in popular.get('results'):
-            print(p['id'])
             import_tv_show(p['id'])
             time.sleep(1.5)
 
@@ -515,6 +515,7 @@ if __name__ == "__main__":
     a = p.parse_args()
 
     if a.tvpopular:
+        print("Running: Get Popular")
         get_tv_popular()
 
     if a.tvid:
@@ -524,7 +525,9 @@ if __name__ == "__main__":
         update_trailer_date(a.tvid, 'tv', a.trailerdate)
  
     if a.recent:
+        print("Running: Get Recent {} / {}".format(a.daysback, a.daysforward))
         get_recent(a.daysback, a.daysforward)
+        print("End Running: Get Recent")
 
     elif a.update and a.movieid:
         get_movie_by_id(a.movieid)
@@ -548,8 +551,9 @@ if __name__ == "__main__":
         delete_trailer_key(a.movieid)
 
     if a.trending:
-        print("Debug1")
+        print("Running: Get Trending.....")
         get_trending()
+        print("Get Trending Ended")
 
     if a.trailerfind:
         print("Checking /r/movies")

@@ -86,7 +86,7 @@ def get_imdb_rating(id):
 #      _rating = re.search('<span>(.+?)</span>', str(m.group(0)))
 #  if _rating != None:
 #    rating = _rating.group(1)
-  print("IMDB Rating {}".format(rating))
+  #print("IMDB Rating {}".format(rating))
   return rating
 
 def get_metacritic_rating(title, year):
