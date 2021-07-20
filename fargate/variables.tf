@@ -44,6 +44,21 @@ variable "public_subnets" {
   default = "subnet-0f19e71d2bbd71df4,subnet-086b238deaba86e43"
 }
 
+# Tasks
+variable "ecs_tasks" {
+  default = {
+    "task1" = {
+      name = "trending"
+      command = "trending"
+      cron = "cron(0 0 * * ? *)"
+    }
+    "task2" = {
+      name = "trending"
+      command = "recent"
+      cron = "cron(0 0 * * ? *)"
+    } 
+  }
+}
 # locals
 
 locals {
