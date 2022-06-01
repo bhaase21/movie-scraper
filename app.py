@@ -334,7 +334,8 @@ def get_recent(days_back, days_forward):
         popular = make_request(url + "&page=" + str(x))
 
         for p in popular.get('results'):
-            get_movie_by_id(p['id'])
+            if p['popularity'] > 100:
+              get_movie_by_id(p['id'])
             time.sleep(1.0)
 
 def import_from_tmdb_export(file_name, index):
